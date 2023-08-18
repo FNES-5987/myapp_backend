@@ -22,4 +22,7 @@ public class Post {
     private String content;
     private String creatorName;
     private Long createdTime;
+
+
+
 }
