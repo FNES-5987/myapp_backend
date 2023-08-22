@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-
-
 @RequestMapping(value = "/posts")
 public class PostController {
 
@@ -20,7 +18,7 @@ public class PostController {
     @GetMapping
     public List<Post> getPostList() {
 
-        List<Post> list = repo.findAll(Sort.by("no").ascending());
+        List<Post> list = repo.findPostSortByNo();
 
         return list;
     }
