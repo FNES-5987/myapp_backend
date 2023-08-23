@@ -9,12 +9,12 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query(value = "select * " +
-            "from post " +
-            "order by no asc", nativeQuery = true)
-    List<Post> findPostSortByNo();
-    @Query(value = "select * " +
-            "from post " +
-            "where no = :no", nativeQuery = true)
-    Optional<Post> findPostByNo(Long no);
+//    @Query(value = "select * " +
+//            "from post " +
+//            "order by no asc", nativeQuery = true)
+//    List<Post> findPostSortByNo();
+//    @Query(value = "select * " +
+//            "from post " +
+//            "where no = :no", nativeQuery = true)
+//    Optional<Post> findPostByNo(Long no);
 }
