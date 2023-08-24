@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Data
 @Builder
@@ -21,6 +20,7 @@ public class Post {
     private String title;
     @Column(nullable = false)
     private String content;
-    private String creatorName;
+    private String nickname;
+    private String password;
     private Long createdTime;
 }
