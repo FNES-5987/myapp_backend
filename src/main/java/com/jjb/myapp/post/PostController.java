@@ -14,7 +14,7 @@ public class PostController {
 
     @Autowired
     PostRepository repo;
-    
+
     @GetMapping
     public List<Post> getPostList() {
         List<Post> list = repo.findAll(Sort.by("no").ascending());
@@ -77,4 +77,3 @@ public class PostController {
         }
     }
 }
-
