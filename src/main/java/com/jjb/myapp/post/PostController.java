@@ -1,6 +1,9 @@
 package com.jjb.myapp.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,9 @@ public class PostController {
 
     @Autowired
     PostRepository repo;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @GetMapping
     public List<Post> getPostList() {
@@ -75,5 +81,31 @@ public class PostController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/{postNo}/comments")
+    public ResponseEntity<Comment> addCommentToPost(
+            @PathVariable Long postNo,
+            @RequestBody Comment comment) {
+        Optional<Post> post = repo.findById(postNo);
+        if (post.isPresent()) {
+            comment.setPost(post.get());
+            Comment savedComment = commentRepository.save(comment);
+            return ResponseEntity.ok(savedComment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{postNo}/comments")
+    public ResponseEntity<List<Comment>> getCommentsForPost(@PathVariable Long postNo) {
+        List<Comment> comments = commentRepository.findByPost_No(postNo);
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/{postNo}/commentcount")
+    public ResponseEntity<Long> getCommentCountForPost(@PathVariable Long postNo) {
+        Long commentCount = commentRepository.countByPost_No(postNo);
+        return ResponseEntity.ok(commentCount);
     }
 }

@@ -12,6 +12,9 @@ public class Comment {
     private Long id;
 
     private String content;
+    private String nickname;
+    private String password;
+    private Long createdTime;
 
     @ManyToOne
     private Post post;
