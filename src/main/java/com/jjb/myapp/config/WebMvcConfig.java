@@ -13,8 +13,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry
                 .addMapping("/**")
                 .allowedOrigins(
-                        "http://localhost:5500",
-                        "http://127.0.0.1:5500")
-                .allowedMethods("*");
+                        "http://localhost:5500",  // 클라이언트 도메인
+                        "http://127.0.0.1:5500") // 클라이언트 도메인
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
+                .allowedHeaders("*") // 모든 헤더 허용
+                .allowCredentials(true); // 쿠키 허용
     }
 }

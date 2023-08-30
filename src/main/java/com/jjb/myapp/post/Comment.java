@@ -2,6 +2,9 @@ package com.jjb.myapp.post;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.Reference;
 
 @Data
 @Entity
@@ -17,5 +20,6 @@ public class Comment {
     private Long createdTime;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 }

@@ -90,11 +90,17 @@ public class PostController {
         Optional<Post> post = repo.findById(postNo);
         if (post.isPresent()) {
             comment.setPost(post.get());
+            comment.setCreatedTime(new Date().getTime());
             Comment savedComment = commentRepository.save(comment);
             return ResponseEntity.ok(savedComment);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @RequestMapping(value = "/{postNo}/comments/{commentId}", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> options() {
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{postNo}/comments")
@@ -108,4 +114,34 @@ public class PostController {
         Long commentCount = commentRepository.countByPost_No(postNo);
         return ResponseEntity.ok(commentCount);
     }
+
+    @DeleteMapping("/{postNo}/comments/{commentId}")
+    public ResponseEntity removeComment(
+            @PathVariable Long postNo,
+            @PathVariable Long commentId,
+            @RequestBody Map<String, String> requestBody) {
+
+        Optional<Post> post = repo.findById(postNo);
+        if (!post.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (!comment.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Comment existingComment = comment.get();
+
+        String passwordFromRequest = requestBody.get("password");
+        String actualPassword = existingComment.getPassword();
+
+        if (passwordFromRequest == null || !passwordFromRequest.equals(actualPassword)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        commentRepository.deleteById(commentId);
+        return ResponseEntity.ok().build();
+    }
+
 }
