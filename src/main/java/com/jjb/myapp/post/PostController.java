@@ -144,4 +144,9 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Post>> searchPosts(@RequestParam String keyword) {
+        List<Post> searchResults = repo.findByTitleContainingIgnoreCase(keyword);
+        return ResponseEntity.ok(searchResults);
+    }
 }
