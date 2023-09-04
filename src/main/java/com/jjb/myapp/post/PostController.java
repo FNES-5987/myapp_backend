@@ -1,5 +1,8 @@
 package com.jjb.myapp.post;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Tag(name="게시물 관리 처리 API")
 @RestController
 @RequestMapping(value = "/posts")
 public class PostController {
@@ -54,6 +58,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "포스트 삭제 처리", security = { @SecurityRequirement(name = "bearer-key") })
     @DeleteMapping(value = "/{no}")
     public ResponseEntity removePost(@PathVariable long no) {
         System.out.println(no);
